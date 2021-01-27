@@ -33,6 +33,11 @@ contract HederaSwap {
         emit OwnerSet(address(0), owner);
     }
 
+    function hederaStringer() public returns (string memory) {
+
+        return "working";
+    }
+
     function hederaPayable(address _seller) public payable {
       // Consider using call.value to cusomize .gase(100) max
       uint256 cut = threePercent(msg.value);

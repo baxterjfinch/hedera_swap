@@ -18,6 +18,11 @@ router.get("/", function(req, res, next) {
 	res.send(writeOutput(compiled, buildPath))
 });
 
+var inputs = {
+	'HederaSwap.sol': fs.readFileSync(path.resolve(__dirname, 'contracts', 'HederaSwap.sol'), 'utf8').toString(),
+	'HederaSwap.sol': fs.readFileSync(path.resolve(__dirname, 'contracts', 'HederaSwap.sol'), 'utf8').toString(),
+};
+
 /**
  * Makes sure that the build folder is deleted, before every compilation
  * @returns {*} - Path where the compiled sources should be saved.
