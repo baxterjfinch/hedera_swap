@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import Card from "../UI/Card";
-import {getCompiled} from "../../redux/modules/compiler";
+import {getCompiled, getCall} from "../../redux/modules/compiler";
 import Button from "@material-ui/core/Button";
 
 
@@ -15,6 +15,14 @@ export default function CompiledContracts(props) {
 		dispatch(getCompiled())
 	}
 
+	const callContract = () => {
+		let body = {
+			contract: "0.0.283823",
+			callMethod: "hederaStringer"
+		}
+		dispatch(getCall(body))
+	}
+
 	useEffect(() => {
 	},[])
 
@@ -22,6 +30,10 @@ export default function CompiledContracts(props) {
 		<Card>
 			<Button variant="outlined" color="primary" onClick={recompileContracts}>
 				Compile Contracts
+			</Button>
+
+			<Button variant="outlined" color="primary" onClick={callContract}>
+				Call Contract
 			</Button>
 		</Card>
 	)

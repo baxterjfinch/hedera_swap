@@ -11,6 +11,7 @@ const operatorAccount = process.env.ACCOUNT_ID;
 const operatorPublicKey = process.env.PUBLIC_KEY;
 const operatorPrivateKey = process.env.PRIVATE_KEY;
 const client = Client.forTestnet();
+
 client.setOperator(operatorAccount, operatorPrivateKey);
 
 
@@ -19,8 +20,12 @@ router.get("/", function(req, res, next) {
 	let method = req.query.method;
 	let params = req.query.params;
 
+
 	try {
 		callContract(contract, method, params).then((resp) => {
+			// let hex = Web3Utils.bytesToHex(resp.response.bytes)
+			// resp["hex"] = hex
+
 			res.send(resp)
 		})
 	} catch (err) {
@@ -41,7 +46,10 @@ async function callContract(contract, method, params) {
 	console.log(contractFunctionResult);
 
 	return {
-		"response": contractFunctionResult
+		"response": {
+			raw: contractFunctionResult,
+			decoded: contractFunctionResult.getString(0)
+		}
 	}
 }
 

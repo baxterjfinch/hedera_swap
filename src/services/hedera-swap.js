@@ -33,6 +33,13 @@ export const getCompiled = async() => {
 	return response
 }
 
+export const getCall = async(n, body) => {
+	const url = `http://localhost:9000/callcontract?contract=${body.contract}&method=${body.callMethod}`
+	const method = 'get'
+	const response = await doFetch({url, method})
+	return response
+}
+
 export const setCompiled = async() => {
 	const url = `/compile`
 	const method = 'get'

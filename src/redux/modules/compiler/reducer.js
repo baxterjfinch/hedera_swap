@@ -13,6 +13,12 @@ export default function Compiler(state = initialState, action) {
 				payload: action.response,
 				error: undefined
 			};
+		case `SET_CALL`:
+			return {
+				...state,
+				payload: action.response,
+				error: undefined
+			};
 
 		default:
 			return state;

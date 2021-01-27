@@ -5,13 +5,9 @@ const fs = require('fs-extra');
 var router = express.Router();
 
 router.get("/", function(req, res, next) {
-
 	const buildPath = compilingPreperations();
-	console.log("Build path: ", buildPath)
 	const config = createConfiguration();
-	console.log("config config: ", config)
 	const compiled = compileSources(config);
-	console.log("compiled: ", compiled)
 
 	errorHandling(compiled);
 	writeOutput(compiled, buildPath);
