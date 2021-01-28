@@ -20,12 +20,10 @@ router.get("/", function(req, res, next) {
 	let method = req.query.method;
 	let params = req.query.params;
 
-
 	try {
 		callContract(contract, method, params).then((resp) => {
 			// let hex = Web3Utils.bytesToHex(resp.response.bytes)
 			// resp["hex"] = hex
-
 			res.send(resp)
 		})
 	} catch (err) {

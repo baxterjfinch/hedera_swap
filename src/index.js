@@ -23,10 +23,6 @@ if ( currentLastTimestamp ){
     localStorage.setItem('lastTimestamp', currentLastTimestamp);
 }
 
-console.log(persistor)
-console.log(store)
-console.log(history)
-
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
