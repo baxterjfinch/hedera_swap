@@ -85,12 +85,12 @@ const useStyles = makeStyles(theme => ({
 		paddingRight: 0,
 		height: '50px'
 	},
-	listItemIcon: ({ menuOpen }) => ({
-		marginLeft: 20,
-		marginRight: 20,
-		height: 20,
-		width: 20
-	}),
+	listItemIcon:{
+		display: "flex",
+		width: 50,
+		justifyContent: "center",
+		color: "white"
+	},
 	listItemText: {
 		color: theme.sideBar.color,
 		fontSize: theme.sideBar.fontSize,
@@ -170,7 +170,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-export default function SideBar() {
+export default function SideBar(props) {
 	const { Orgs, Settings } = useSelector(state => state)
 	const { activePage, colorTheme, isMobile, menuOpen, screenDims } = Settings
 	const dispatch = useDispatch()
@@ -178,6 +178,7 @@ export default function SideBar() {
 	const theme = getTheme(colorTheme)
 	const classes = useStyles({ isMobile, menuOpen, width: screenDims.width })
 	const transitionDuration = 350
+
 	const mainLinks = {
 		dashboard: {
 			path: '/',
@@ -185,44 +186,10 @@ export default function SideBar() {
 			Icon: theme.icons.dashboard,
 			children: []
 		},
-		// accounts: {
-		// 	path: '/accounts',
-		// 	label: 'Accounts',
-		// 	Icon: theme.icons.accounts,
-		// 	disabled: true
-		// },
-		blocks: {
-			path: '/blocks',
-			label: 'Blocks',
-			Icon: theme.icons.blocks,
-			children: []
-		},
-		transactions: {
-			path: '/transactions',
-			label: 'Transactions',
+		admin: {
+			path: '/admin',
+			label: 'Admin',
 			Icon: theme.icons.admin,
-			children: []
-		},
-		explore: {
-			path: '/explore',
-			label: 'Explore',
-			Icon: theme.icons.explore,
-			disabled: true,
-			children: [
-				{
-					label: "Titles",
-					path: '/explore?titles'
-				},
-				{
-					label: "Assets",
-					path: '/explore?assets'
-				},
-			]
-		},
-		info: {
-			path: '/info',
-			label: 'Info',
-			Icon: theme.icons.settings,
 			children: []
 		}
 	}
@@ -234,27 +201,24 @@ export default function SideBar() {
 		)
 		:
 		<>
-			{/*<div className={`${classes.closedLogoWrapper}`}>*/}
-			{/*<img className={`${classes.closedLogo}`} src={} alt={"IVI Engine"} />*/}
-			{/*</div>*/}
 		</>
 
 
 	const handleLinkClick = (event, path, label) => {
 		event.stopPropagation()
 		dispatch(setActivePage(label))
-		history.push(path)
+		props.setPage(label)
 		isMobile && dispatch(setMenuOpen(!Settings.menuOpen))
 	}
 
 	const renderMainLink = ({ Icon, label, path, children }) =>
 		<>
 			<ListItem
-				className={`${classes.listItem} ${activePage === label ? classes.highlight : ''}`}
+				className={`${classes.listItem} ${props.page === label ? classes.highlight : ''}`}
 				onClick={event => handleLinkClick(event,path,label)}>
 				<ListItemIcon>
 					<div className={classes.row}>
-						<img className={`${classes.listItemIcon}`} src={Icon} alt={label} />
+						<div className={`${classes.listItemIcon}`}>{Icon}</div>
 						<Typography className={`${classes.listItemText} ${!menuOpen ? classes.hidden : ''} ${activePage === label ? classes.bold : ''}`}>
 							{label}
 						</Typography>
@@ -302,12 +266,10 @@ export default function SideBar() {
 			transitionDuration={transitionDuration}
 			onClick={() => dispatch(setMenuOpen(!menuOpen))}
 			onClose={() => dispatch(setMenuOpen(!menuOpen))}>
+			{console.log(props.page)}
 			<List className={classes.list}>
 				{ renderMainLink(mainLinks.dashboard) }
-				{ renderMainLink(mainLinks.transactions) }
-				{ renderMainLink(mainLinks.blocks) }
-				{ renderMainLink(mainLinks.explore) }
-				{ renderMainLink(mainLinks.info) }
+				{ renderMainLink(mainLinks.admin) }
 			</List>
 			{ logo }
 		</Drawer>

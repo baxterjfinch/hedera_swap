@@ -23,10 +23,8 @@ const App = (props) => {
 		<MuiThemeProvider theme={appTheme}>
 
 			<Router history={history}>
-
 				<Switch>
 					<Route exact path="/" component={Home}/>
-
 					<Redirect to="/"/>
 				</Switch>
 			</Router>

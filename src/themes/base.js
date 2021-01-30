@@ -1,5 +1,7 @@
 import { createMuiTheme } from '@material-ui/core/styles'
 
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 // Buttons
 export const btnDefault = '#B2BCF8'
 export const btnHover = '#A0B2FF'
@@ -131,7 +133,8 @@ export default createMuiTheme({
 		}
 	},
 	icons: {
-
+		dashboard: <DashboardIcon />,
+		admin: <SupervisedUserCircleIcon />
 	},
 	overrides: {
 		table: {

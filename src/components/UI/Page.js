@@ -117,29 +117,29 @@ export default function Page(props) {
 
 	return (
 		<>
-			<SideBar />
-			<main className={`${classes.root} ${className ? className : ''}`} style={style}>
-				<div className={classes.container}>
-					<div className={classes.header}>
-						<div className={classes.title}>
-							<Typography gutterBottom>{}</Typography>
-							<Typography gutterBottom>{subTitle}</Typography>
-							{
-								breadcrumbs.length
-									?
-									<>
-										{renderBreadcrumbs()}
-									</>
-									: null
-							}
+			<SideBar setPage={(page) => {props._setPage(page)}} page={props.page} />
+				<main className={`${classes.root} ${className ? className : ''}`} style={style}>
+					<div className={classes.container}>
+						<div className={classes.header}>
+							<div className={classes.title}>
+								<Typography gutterBottom>{}</Typography>
+								<Typography gutterBottom>{subTitle}</Typography>
+								{
+									breadcrumbs.length
+										?
+										<>
+											{renderBreadcrumbs()}
+										</>
+										: null
+								}
+							</div>
+							<div className={classes.cta}>{cta}</div>
 						</div>
-						<div className={classes.cta}>{cta}</div>
+						<div className={classes.childContainer}>
+							{ children }
+						</div>
 					</div>
-					<div className={classes.childContainer}>
-						{ children }
-					</div>
-				</div>
-			</main>
+				</main>
 		</>
 	)
 }

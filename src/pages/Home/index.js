@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import GridLayout, { WidthProvider } from 'react-grid-layout'
@@ -7,6 +7,7 @@ import 'react-resizable/css/styles.css'
 import { setActivePage, setDashboardLayout } from '../../redux/modules/settings'
 import getTheme from '../../themes'
 import Page from "../../components/UI/Page";
+import Dashboard from "../../components/Widgets/Dashboard";
 import CompiledContracts from "../../components/Widgets/CompiledContracts";
 
 const ResponsiveGridLayout = WidthProvider(GridLayout)
@@ -42,19 +43,27 @@ const useStyles = makeStyles({
 }, {name: "Dashboard"})
 
 
-export default function Dashboard() {
+export default function Home() {
 	const dispatch = useDispatch()
 	const { Settings, Compiled } = useSelector(state => state)
 	const { colorTheme, home, screenDims } = Settings
 	const theme = getTheme(colorTheme)
 	const classes = useStyles({ height: screenDims.height })
 
+	const [page, setPage] = useState("Dashboard");
+
 	useEffect(() => {
-		dispatch(setActivePage('Dashboard'))
+		dispatch(setActivePage('Home'))
 	},[])
 
+	const setNewPage = (newPage) => {
+		if (page !== newPage) {
+			setPage(newPage)
+		}
+	}
+
 	return (
-		<Page>
+		<Page _setPage={(newPage) => setNewPage(newPage)} page={page} >
 			<ResponsiveGridLayout
 				className={classes.dashContainer}
 				isBounded={true}
@@ -64,8 +73,19 @@ export default function Dashboard() {
 				containerPadding={[0,0]}
 				compactType='vertical'
 			>
-				<div key="compiled_contracts">
-					<CompiledContracts />
+			<div key="compiled_contracts">
+
+				{
+					page === "Dashboard"
+						?
+							<Dashboard />
+
+					: page === "Admin"
+						?
+							<CompiledContracts />
+
+					: <></>
+				}
 				</div>
 
 			</ResponsiveGridLayout>

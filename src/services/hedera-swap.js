@@ -40,8 +40,8 @@ export const getCall = async(n, body) => {
 	return response
 }
 
-export const setCompiled = async() => {
-	const url = `/compile`
+export const newAccount = async() => {
+	const url = `http://localhost:9000/createaccount`
 	const method = 'get'
 	const response = await doFetch({url, method})
 	return response

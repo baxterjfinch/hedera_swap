@@ -1,7 +1,7 @@
 import { fork, put, takeLatest } from 'redux-saga/effects'
-import actions, { setCompiled, setCall } from './actions'
+import actions, { setCompiled, setCall, setAccount } from './actions'
 import { swapFetcher } from '../../utilities'
-import { getCompiled, getCall } from '../../../services/hedera-swap'
+import { getCompiled, getCall, newAccount } from '../../../services/hedera-swap'
 
 function* fetchCompiledSaga(action) {
 	try {
@@ -12,10 +12,16 @@ function* fetchCompiledSaga(action) {
 
 function* fetchGetCallSaga(action) {
 	try {
-		console.log("RESPONSE: ", action)
-
 		const response = yield swapFetcher(getCall, [action.body])
 		yield put(setCall(response))
+	} catch(e) {}
+}
+
+
+function* fetchGetAccountSaga(action) {
+	try {
+		const response = yield swapFetcher(newAccount, [action.body])
+		yield put(setAccount(response))
 	} catch(e) {}
 }
 
@@ -27,8 +33,12 @@ function* watchGetCallSaga() {
 	yield takeLatest(actions.GET_CALL, fetchGetCallSaga)
 }
 
+function* watchGetAccountSaga() {
+	yield takeLatest(actions.GET_NEW_ACCOUNT, fetchGetAccountSaga)
+}
 
 export default function* (compilerSagas) {
 	yield fork(watchFetchCompiledSaga)
 	yield fork(watchGetCallSaga)
+	yield fork(watchGetAccountSaga)
 }
